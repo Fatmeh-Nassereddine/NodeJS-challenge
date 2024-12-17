@@ -1,6 +1,6 @@
 const fs = require('fs');  // Import the 'fs' module for file operations
 // Set default file name or use the one provided as a command-line argument
-// const filename = process.argv[2] || 'database.json';
+const filename = process.argv[2] || 'database.json';
 
 /**
  * Starts the application
