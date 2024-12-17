@@ -16,7 +16,7 @@ function startApp(name){
   console.log(`Welcome to ${name}'s application!`)
   console.log("--------------------")
 }
-
+let tasks=["git add","git commit","git push"]
 
 /**
  * Decides what to do depending on the data that was received
@@ -43,7 +43,9 @@ function onDataReceived(text) {
     hello(cleanedText);  // Pass the whole text to the hello function
   } else if (cleanedText === 'help') {
     help();
-  } else {
+  } else if (cleanedText === 'list') {
+    list();  // Call the list function when the user types "list"
+  }else {
     unknownCommand(text);
   }
 }
@@ -56,7 +58,15 @@ function hello(text) {
     console.log('hello!');  // If there's no argument, just say hello!
   }
 }
-
+function list() {
+  if (tasks.length === 0) {
+    console.log("No tasks available.");
+  } else {
+    tasks.forEach((task, index) => {
+      console.log(`${index + 1}. ${task}`);
+    });
+  }
+}
 
 /**
  * prints "unknown command"
