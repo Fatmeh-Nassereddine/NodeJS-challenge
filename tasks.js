@@ -97,11 +97,15 @@ function remove(index) {
       tasks.splice(index, 1);
       console.log(`Task ${index + 1} removed.`);
     } else {
-      console.log("Error: Task number is out of range.");
+      console.log("Error: Task number does not exist.");
     }
   } else {
-    tasks.pop();  // Remove the last task if no index is provided
-    console.log("Last task removed.");
+    if (tasks.length > 0) {
+      tasks.pop();  // Remove the last task if no index is provided
+      console.log("Last task removed.");
+    } else {
+      console.log("Error: No tasks to remove.");
+    }
   }
 }
 
