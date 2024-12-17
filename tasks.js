@@ -1,3 +1,6 @@
+const fs = require('fs');  // Import the 'fs' module for file operations
+// Set default file name or use the one provided as a command-line argument
+// const filename = process.argv[2] || 'database.json';
 
 /**
  * Starts the application
@@ -10,6 +13,8 @@
  * @returns {void}
  */
 function startApp(name){
+  // Load tasks from file when app starts
+  loadTasks();
   process.stdin.resume();
   process.stdin.setEncoding('utf8');
   process.stdin.on('data', onDataReceived);
@@ -21,6 +26,29 @@ let tasks = [
   { task: "git commit", done: false },
   { task: "git push", done: false }
 ];
+//load tasks//
+function loadTasks() {
+  try {
+    // Read file synchronously, and parse JSON data
+    const data = fs.readFileSync(filename, 'utf8');
+    tasks = JSON.parse(data);  // Set the 'tasks' array from the loaded file
+    console.log(`Tasks loaded from ${filename}`);
+  } catch (error) {
+    // If file does not exist or there's an error, initialize an empty tasks array
+    console.log("No previous tasks found, starting fresh.");
+    tasks = [];
+  }
+}
+//save Tasks//
+function saveTasks() {
+  try {
+    // Convert tasks array to JSON and write it to the file
+    fs.writeFileSync(filename, JSON.stringify(tasks, null, 2), 'utf8');
+    console.log(`Tasks saved to ${filename}`);
+  } catch (error) {
+    console.log("Error saving tasks:", error);
+  }
+}
 
 
 /**
@@ -76,22 +104,14 @@ function onDataReceived(text) {
     } else {
       console.log("Error: You must provide a task number to uncheck.");
     }
-  }else if (cleanedText === 'help') {
+  } else if (cleanedText === 'help') {
     help();
   } else {
     unknownCommand(text);
   }
 }
 
-function hello(text) {
-  const words = text.split(' ');  // Split the input into words
-  const name = words[1];  // The second word (after "hello") is the argument
-  if (name) {
-    console.log(`hello ${name}!`);  // If there's an argument, say hello <name>!
-  } else {
-    console.log('hello!');  // If there's no argument, just say hello!
-  }
-}
+
 //  Lists all tasks with task numbers//
 
 function list() {
@@ -216,8 +236,14 @@ function unknownCommand(c){
  *
  * @returns {void}
  */
-function hello(){
-  console.log('hello!')
+function hello(text) {
+  let parts = text.split(" "); // Split the input by spaces
+  let name = parts.slice(1).join(" "); // Get everything after 'hello' as the argument
+  if (name) {
+    console.log(`hello ${name}!`); //here if I write 'Baby' instead of the "name", you get "hello Baby"//
+  } else {
+    console.log("hello!"); // here if I write just hello I got "hello!"/
+  }
 }
 
 
@@ -226,10 +252,13 @@ function hello(){
  *
  * @returns {void}
  */
-function quit(){
-  console.log('Quitting now, goodbye!')
+function quit() {
+  // Save tasks to file before quitting
+  saveTasks();
+  console.log('Quitting now, goodbye!');
   process.exit();
 }
+
 /**
  * /**
  * Displays a list of available commands.
