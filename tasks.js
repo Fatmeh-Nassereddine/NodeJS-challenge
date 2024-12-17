@@ -45,6 +45,9 @@ function onDataReceived(text) {
     help();
   } else if (cleanedText === 'list') {
     list();  // Call the list function when the user types "list"
+  }else if (cleanedText.startsWith('add ')) {
+    const task = cleanedText.slice(4).trim(); // Remove "add " and trim spaces
+    add(task);  // Add the task if provided
   }else {
     unknownCommand(text);
   }
@@ -65,6 +68,14 @@ function list() {
     tasks.forEach((task, index) => {
       console.log(`${index + 1}. ${task}`);
     });
+  }
+}
+function add(task) {
+  if (task.trim()) {
+    tasks.push(task.trim());
+    console.log(`Task added: ${task}`);
+  } else {
+    console.log("Error: You must provide a task.");
   }
 }
 
