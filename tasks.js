@@ -39,8 +39,9 @@ function onDataReceived(text) {
   }
   else if(text === 'hello\n'){
     hello();
-  }
-  else{
+  }else if(text.trim() === 'help'){
+    help();
+  } else{
     unknownCommand(text);
   }
 }
@@ -77,6 +78,7 @@ function quit(){
   console.log('Quitting now, goodbye!')
   process.exit();
 }
+
 
 // The following line starts the application
 startApp("Fatmeh Nassereddine")
