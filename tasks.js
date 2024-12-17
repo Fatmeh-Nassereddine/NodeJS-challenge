@@ -17,9 +17,9 @@ function startApp(name){
   console.log("--------------------")
 }
 let tasks = [
-  { task: "git add", done: false },
+  { task: "git add", done: true },
   { task: "git commit", done: false },
-  { task: "git push", done: true }
+  { task: "git push", done: false }
 ];
 
 
@@ -62,7 +62,21 @@ function onDataReceived(text) {
       const newText = args.slice(1).join(' ');
       edit(taskNumber, newText);  // Edit specific task
     }
-  } else if (cleanedText === 'help') {
+  } else if (cleanedText.startsWith('check ')) {
+    const args = cleanedText.split(' ').slice(1);
+    if (args.length === 1) {
+      check(args[0]);  // Check the specified task
+    } else {
+      console.log("Error: You must provide a task number to check.");
+    }
+  } else if (cleanedText.startsWith('uncheck ')) {
+    const args = cleanedText.split(' ').slice(1);
+    if (args.length === 1) {
+      uncheck(args[0]);  // Uncheck the specified task
+    } else {
+      console.log("Error: You must provide a task number to uncheck.");
+    }
+  }else if (cleanedText === 'help') {
     help();
   } else {
     unknownCommand(text);
@@ -123,6 +137,27 @@ function remove(index) {
     }
   }
 }
+//check function//
+function check(index) {
+  index = parseInt(index, 10) - 1;  // Convert to zero-based index
+  if (index >= 0 && index < tasks.length) {
+    tasks[index].done = true;
+    console.log(`Task ${index + 1} marked as done.`);
+  } else {
+    console.log("Error: Task number does not exist.");
+  }
+}
+//uncheck function//
+function uncheck(index) {
+  index = parseInt(index, 10) - 1;  // Convert to zero-based index
+  if (index >= 0 && index < tasks.length) {
+    tasks[index].done = false;
+    console.log(`Task ${index + 1} marked as undone.`);
+  } else {
+    console.log("Error: Task number does not exist.");
+  }
+}
+
 /**
  * Edits a task from the task list by index.
  *
