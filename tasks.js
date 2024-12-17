@@ -78,7 +78,24 @@ function quit(){
   console.log('Quitting now, goodbye!')
   process.exit();
 }
-
+/**
+ * Displays a list of available commands.
+ *
+ * This function is called when the user types "help". It will display a list of all the available commands that the user can execute in the application.
+ * 
+ * Available commands:
+ * - hello: Says hello
+ * - quit / exit: Exits the application
+ * - help: Displays the list of available commands
+ * 
+ * @returns {void}
+ */
+function help() {
+  console.log("Available commands:");
+  console.log("  hello - Says hello");
+  console.log("  quit / exit - Quits the application");
+  console.log("  help - Displays this help message");
+}
 
 // The following line starts the application
 startApp("Fatmeh Nassereddine")
