@@ -16,7 +16,12 @@ function startApp(name){
   console.log(`Welcome to ${name}'s application!`)
   console.log("--------------------")
 }
-let tasks=["git add","git commit","git push"]
+let tasks = [
+  { task: "git add", done: false },
+  { task: "git commit", done: false },
+  { task: "git push", done: true }
+];
+
 
 /**
  * Decides what to do depending on the data that was received
@@ -80,19 +85,21 @@ function list() {
     console.log("No tasks available.");
   } else {
     tasks.forEach((task, index) => {
-      console.log(`${index + 1}. ${task}`);
+      const status = task.done ? "[✓]" : "[ ]";
+      console.log(`${index + 1}. ${status} ${task.task}`);
     });
   }
 }
 //Adds a task to the task list//
 function add(task) {
   if (task.trim()) {
-    tasks.push(task.trim());
+    tasks.push({ task: task.trim(), done: false });
     console.log(`Task added: ${task}`);
   } else {
     console.log("Error: You must provide a task.");
   }
 }
+
 /* Removes a task from the task list by index.
  *
  * @param {number} index the index of the task to be removed
