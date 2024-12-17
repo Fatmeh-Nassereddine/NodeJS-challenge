@@ -34,31 +34,36 @@ let tasks=["git add","git commit","git push"]
  * @returns {void}
  */
 function onDataReceived(text) {
-  console.log('Received:', text);  // Add a console log to test user input
-  const cleanedText = text.trim(); // Remove newlines and extra spaces
+  const cleanedText = text.trim(); // Clean input
 
   if (cleanedText === 'quit' || cleanedText === 'exit') {
     quit();
   } else if (cleanedText.startsWith('hello')) {
-    hello(cleanedText);  // Pass the whole text to the hello function
+    hello(cleanedText);
   } else if (cleanedText === 'list') {
-    list();  // Call the list function when the user types "list"
-  }else if (cleanedText.startsWith('add ')) {
+    list();
+  } else if (cleanedText.startsWith('add ')) {
     const task = cleanedText.slice(4).trim(); // Remove "add " and trim spaces
-    add(task);  // Add the task if provided
-  }else if (cleanedText.startsWith('remove')) {
-  const args = cleanedText.split(' ').slice(1);
-  if (args.length === 0) {
-    remove();  // Remove the last task if no number is provided
+    add(task);
+  } else if (cleanedText.startsWith('remove')) {
+    const args = cleanedText.split(' ').slice(1);
+    remove(args[0]);
+  } else if (cleanedText.startsWith('edit ')) {
+    const args = cleanedText.split(' ').slice(1);
+    if (args.length === 1) {
+      edit(0, args[0]);  // Edit the last task
+    } else if (args.length > 1) {
+      const taskNumber = args[0];
+      const newText = args.slice(1).join(' ');
+      edit(taskNumber, newText);  // Edit specific task
+    }
+  } else if (cleanedText === 'help') {
+    help();
   } else {
-    remove(args[0]);  // Remove the specified task by index
-  }
-}  else if (cleanedText === 'help') {
-  help();
-}else {
     unknownCommand(text);
   }
 }
+
 function hello(text) {
   const words = text.split(' ');  // Split the input into words
   const name = words[1];  // The second word (after "hello") is the argument
@@ -68,6 +73,8 @@ function hello(text) {
     console.log('hello!');  // If there's no argument, just say hello!
   }
 }
+//  Lists all tasks with task numbers//
+
 function list() {
   if (tasks.length === 0) {
     console.log("No tasks available.");
@@ -77,6 +84,7 @@ function list() {
     });
   }
 }
+//Adds a task to the task list//
 function add(task) {
   if (task.trim()) {
     tasks.push(task.trim());
@@ -108,6 +116,46 @@ function remove(index) {
     }
   }
 }
+/**
+ * Edits a task from the task list by index.
+ *
+ * @param {number} index the index of the task to be edited
+ * @param {string} newText the new text for the task
+ * @returns {void}
+ */
+function edit(index, newText) {
+  if (newText.trim()) {
+    if (index) {
+      index = parseInt(index, 10) - 1;  // Convert to zero-based index
+      if (index >= 0 && index < tasks.length) {
+        tasks[index] = newText.trim();
+        console.log(`Task ${index + 1} edited: ${newText.trim()}`);
+      } else {
+        console.log("Error: Task number does not exist.");
+      }
+    } else {
+      if (tasks.length > 0) {
+        tasks[tasks.length - 1] = newText.trim();  // Edit the last task
+        console.log(`Last task edited: ${newText.trim()}`);
+      } else {
+        console.log("Error: No tasks to edit.");
+      }
+    }
+  } else {
+    console.log("Error: You must provide new text for the task.");
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
 
 /**
  * prints "unknown command"
@@ -164,6 +212,7 @@ function help() {
   console.log("  list - Lists all tasks");
   console.log("  add <task> - Adds a task to the list");
   console.log("  remove [index] - Removes a task from the list");
+  console.log("  edit [index] [new text] - Edits a task by index");
   console.log("  quit / exit - Quits the application");
   console.log("  help - Displays this help message");
 }
