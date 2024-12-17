@@ -41,8 +41,6 @@ function onDataReceived(text) {
     quit();
   } else if (cleanedText.startsWith('hello')) {
     hello(cleanedText);  // Pass the whole text to the hello function
-  } else if (cleanedText === 'help') {
-    help();
   } else if (cleanedText === 'list') {
     list();  // Call the list function when the user types "list"
   }else if (cleanedText.startsWith('add ')) {
@@ -55,8 +53,9 @@ function onDataReceived(text) {
   } else {
     remove(args[0]);  // Remove the specified task by index
   }
-}
-  else {
+}  else if (cleanedText === 'help') {
+  help();
+}else {
     unknownCommand(text);
   }
 }
@@ -138,14 +137,19 @@ function quit(){
   process.exit();
 }
 /**
+ * /**
  * Displays a list of available commands.
  *
  * This function is called when the user types "help". It will display a list of all the available commands that the user can execute in the application.
  * 
  * Available commands:
- * - hello: Says hello
+ * - hello [name]: Says hello to the user with the provided name
+ * - hello: Says hello without a name
+ * - list: Lists all tasks
+ * - add <task>: Adds a task to the list
+ * - remove [index]: Removes a task from the list. If no index is provided, removes the last task
  * - quit / exit: Exits the application
- * - help: Displays the list of available commands
+ * - help: Displays this help message
  * 
  * @returns {void}
  */
@@ -153,9 +157,13 @@ function help() {
   console.log("Available commands:");
   console.log("  hello [name] - Says hello to the user with the provided name");
   console.log("  hello - Says hello without a name");
+  console.log("  list - Lists all tasks");
+  console.log("  add <task> - Adds a task to the list");
+  console.log("  remove [index] - Removes a task from the list");
   console.log("  quit / exit - Quits the application");
   console.log("  help - Displays this help message");
 }
+
 
 // The following line starts the application
 startApp("Fatmeh Nassereddine")
