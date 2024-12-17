@@ -255,6 +255,8 @@ function help() {
   console.log("  add <task> - Adds a task to the list");
   console.log("  remove [index] - Removes a task from the list");
   console.log("  edit [index] [new text] - Edits a task by index");
+  console.log("  check [index] - Marks a task as done");
+  console.log("  uncheck [index] - Marks a task as undone");
   console.log("  quit / exit - Quits the application");
   console.log("  help - Displays this help message");
 }
