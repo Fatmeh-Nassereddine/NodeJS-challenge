@@ -48,7 +48,15 @@ function onDataReceived(text) {
   }else if (cleanedText.startsWith('add ')) {
     const task = cleanedText.slice(4).trim(); // Remove "add " and trim spaces
     add(task);  // Add the task if provided
-  }else {
+  }else if (cleanedText.startsWith('remove')) {
+  const args = cleanedText.split(' ').slice(1);
+  if (args.length === 0) {
+    remove();  // Remove the last task if no number is provided
+  } else {
+    remove(args[0]);  // Remove the specified task by index
+  }
+}
+  else {
     unknownCommand(text);
   }
 }
@@ -76,6 +84,25 @@ function add(task) {
     console.log(`Task added: ${task}`);
   } else {
     console.log("Error: You must provide a task.");
+  }
+}
+/* Removes a task from the task list by index.
+ *
+ * @param {number} index the index of the task to be removed
+ * @returns {void}
+ */
+function remove(index) {
+  if (index) {
+    index = parseInt(index, 10) - 1;  // Convert to zero-based index
+    if (index >= 0 && index < tasks.length) {
+      tasks.splice(index, 1);
+      console.log(`Task ${index + 1} removed.`);
+    } else {
+      console.log("Error: Task number is out of range.");
+    }
+  } else {
+    tasks.pop();  // Remove the last task if no index is provided
+    console.log("Last task removed.");
   }
 }
 
