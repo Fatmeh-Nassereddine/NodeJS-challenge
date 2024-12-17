@@ -1,0 +1,14 @@
+[
+  {
+    "task": "task : git add",
+    "done": false
+  },
+  {
+    "task": "task :git commit",
+    "done": false
+  },
+  {
+    "task": "task: git push",
+    "done": false
+  }
+]
