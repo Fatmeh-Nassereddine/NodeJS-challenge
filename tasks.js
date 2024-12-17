@@ -34,15 +34,26 @@ function startApp(name){
  * @returns {void}
  */
 function onDataReceived(text) {
-  if (text.trim() === 'quit' || text.trim() === 'exit') {
+  console.log('Received:', text);  // Add a console log to test user input
+  const cleanedText = text.trim(); // Remove newlines and extra spaces
+
+  if (cleanedText === 'quit' || cleanedText === 'exit') {
     quit();
-  }
-  else if(text === 'hello\n'){
-    hello();
-  }else if(text.trim() === 'help'){
+  } else if (cleanedText.startsWith('hello')) {
+    hello(cleanedText);  // Pass the whole text to the hello function
+  } else if (cleanedText === 'help') {
     help();
-  } else{
+  } else {
     unknownCommand(text);
+  }
+}
+function hello(text) {
+  const words = text.split(' ');  // Split the input into words
+  const name = words[1];  // The second word (after "hello") is the argument
+  if (name) {
+    console.log(`hello ${name}!`);  // If there's an argument, say hello <name>!
+  } else {
+    console.log('hello!');  // If there's no argument, just say hello!
   }
 }
 
