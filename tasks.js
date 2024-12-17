@@ -103,8 +103,8 @@ function quit(){
  */
 function help() {
   console.log("Available commands:");
-  console.log("  hello - Says hello");
   console.log("  hello [name] - Says hello to the user with the provided name");
+  console.log("  hello - Says hello without a name");
   console.log("  quit / exit - Quits the application");
   console.log("  help - Displays this help message");
 }
